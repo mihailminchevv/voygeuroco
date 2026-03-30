@@ -234,11 +234,13 @@ function generatePlan() {
     return;
   }
 
-  const interestMap = {
-    history: ['Tourist Place', 'Hidden Gem'],
-    food: ['Cafe', 'Restaurant'],
-    nature: ['Hidden Gem', 'Tourist Place']
-  };
+const interestMap = {
+  history:  ['Historic Site', 'Tourist Place'],
+  romantic: ['Romantic Spot', 'Hidden Gem'],
+  scenic:   ['Scenic View', 'Tourist Place'],
+  food:     ['Restaurant', 'Cafe', 'Bar'],
+  hidden:   ['Hidden Gem']
+};
 
   let filtered = attractions.filter(p =>
     [...planInterests].some(key => interestMap[key]?.includes(p.category))
