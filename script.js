@@ -186,7 +186,7 @@ function highlightSidebarItem(id) {
 /* ── GLOBAL STATE ── */
 let planDays = 2;
 let planDiff = 'moderate';
-let planInterests = new Set(['History spots']);
+let planInterests = new Set(['history']);
 
 /* ── AI PLANNER FUNCTIONS ── */
 function updateDays(val) {
@@ -197,16 +197,19 @@ function updateDays(val) {
   document.getElementById('days-display').textContent = val == 1 ? '1 day' : val + ' days';
   document.querySelectorAll('.days-tick').forEach((t, i) => t.classList.toggle('active', i + 1 == val));
 }
+
 function setDays(val) {
   document.getElementById('days-slider').value = val;
   updateDays(val);
 }
+
 function setDiff(d) {
   planDiff = d;
   ['relaxed','moderate','intensive'].forEach(opt => {
     document.getElementById('diff-' + opt).classList.toggle('selected', opt === d);
   });
 }
+
 function toggleInterest(key) {
   const el = document.getElementById('int-' + key);
   if (planInterests.has(key)) {
@@ -217,48 +220,63 @@ function toggleInterest(key) {
     el.classList.add('selected');
   }
 }
+
 function showError(msg) {
   const el = document.getElementById('plan-error');
   el.textContent = msg;
   el.classList.add('visible');
 }
+
 function hideError() {
   document.getElementById('plan-error').classList.remove('visible');
 }
+
 function generatePlan() {
   hideError();
+
   if (planInterests.size === 0) {
     showError("Please select at least one interest to generate your plan.");
     return;
   }
-const interestMap = {
-  history:  ['Historical Spots'],
-  romantic: ['Romantic Places'],
-  scenic:   ['Scenic Places'],
-  food:     ['Local Food & Drinks'],
-  hidden:   ['Hidden Gems']
-};
+
+  const interestMap = {
+    history:  ['Historical Spots'],
+    romantic: ['Romantic Places'],
+    scenic:   ['Scenic Places'],
+    food:     ['Local Food & Drinks'],
+    hidden:   ['Hidden Gems']
   };
+
   let filtered = attractions.filter(p =>
     [...planInterests].some(key => interestMap[key]?.includes(p.category))
   );
+
   if (!filtered.length) {
     showError("No places match your selected interests.");
     return;
   }
+
+  // Shuffle
   filtered = filtered.sort(() => Math.random() - 0.5);
+
+  // Distribute per day
   const plan = Array.from({ length: planDays }, () => []);
   filtered.forEach((place, i) => {
     plan[i % planDays].push(place);
   });
+
+  // Relaxed mode
   if (planDiff === 'relaxed') {
     const maxPerDay = Math.floor(filtered.length / planDays) || 1;
     plan.forEach((day, i) => {
       plan[i] = day.slice(0, maxPerDay);
     });
   }
+
+  // Render results
   const container = document.getElementById('plan-results');
   if (!container) return;
+
   container.innerHTML = plan.map((dayPlaces, i) => `
     <div class="plan-day">
       <h3>Day ${i + 1}</h3>
