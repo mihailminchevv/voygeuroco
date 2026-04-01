@@ -34,9 +34,7 @@ let mapMarkers = [];
 let selectedPlaceId = null;
 let mapInitialized = false;
 
-let planDays = 2;
-let planDiff = 'moderate';
-let planInterests = new Set(['history', 'food']);
+
 
 /* ── NAVIGATION ── */
 function navigate(page) {
