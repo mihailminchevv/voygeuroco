@@ -52,19 +52,19 @@ function navigate(page) {
 
 window.addEventListener('hashchange', () => {
   const h = window.location.hash.replace('#', '') || 'home';
-  if (['home', 'directory', 'map', 'blog', 'plan'].includes(h)) navigate(h);
+  if (['home', 'explore', 'explore','map', 'blog', 'create'].includes(h)) navigate(h);
 });
 
-/* ── DIRECTORY ── */
+/* ── Еxplore ── */
 function setDirFilter(f) {
   dirFilter = f;
-  document.querySelectorAll('#page-directory .pill').forEach(p => {
+  document.querySelectorAll('#page-explore .pill').forEach(p => {
     p.classList.toggle('active', p.dataset.filter === f);
   });
-  renderDirectory();
+  renderExplore();
 }
 
-function renderDirectory() {
+function renderExplore() {
   const q = (document.getElementById('dir-search-input').value || '').toLowerCase();
   const filtered = attractions.filter(p => {
     const matchCat = dirFilter === 'all' || p.category === dirFilter;
@@ -77,7 +77,7 @@ function renderDirectory() {
     return;
   }
   grid.innerHTML = filtered.map((p,i) => {
-    const catClass = p.category === 'Tourist Place' ? 'cat-tourist' : p.category === 'Cafe' ? 'cat-cafe' : p.category === 'Restaurant' ? 'cat-restaurant' : 'cat-business';
+    const catClass = p.category === ' Prussian & Imperial Landmarks' ? 'cat- Prussian & Imperial Landmarks' : p.category === 'Berlin Wall & Cold War Sites' ? 'cat-Berlin Wall & Cold War Sites' : p.category === ' Third Reich & Totalitarian Ruins' ? 'cat- Third Reich & Totalitarian Ruins' : p.category === ' Hidden Gems & Secret Parks' ? 'cat- Hidden Gems & Secret Parks' :p.category === 'World-Class Museums' ? 'cat-World-Class Museums' :p.category === ' Leisure & Classic Berlin' ? 'cat- Leisure & Classic Berlin' :
     return `<div class="place-card" onclick="navigate('map'); setTimeout(() => selectPlace(${p.id}), 400)">
       <div class="place-card-img" style="background-image: url('${p.image}'), linear-gradient(135deg, #1a2f45 0%, #0d1b2a 100%)"></div>
       <div class="place-card-header">
@@ -97,7 +97,7 @@ function renderDirectory() {
 
 /* ── MAP ── */
 function getMarkerColor(cat) {
-  return cat === 'Tourist Place' ? '#c9a84c' : cat === 'Cafe' ? '#5dcaa5' : cat === 'Restaurant' ? '#e07a55' : '#b0a8e8';
+  return cat === ' Prussian & Imperial Landmarks' ? '#c9a84c' : cat === 'Berlin Wall & Cold War Sites' ? '#5dcaa5' : cat === 'Hidden Gems & Secret Parks' ? '#e07a55' : '#b0a8e8' : cat === 'Hidden Gems & Secret Parks' ? '#c9a84c' : cat === 'World-Class Museums' ? '#c9a84c' :cat === ' Leisure & Classic Berlin ' ? '#c9a84c' ;
 }
 
 function createMarkerIcon(cat) {
@@ -152,7 +152,7 @@ function renderMapList(list) {
   const data = list || attractions;
   const container = document.getElementById('map-places-list');
   container.innerHTML = data.map(p => {
-    const dotClass = p.category === 'Tourist Place' ? 'dot-tourist' : p.category === 'Cafe' ? 'dot-cafe' : p.category === 'Restaurant' ? 'dot-restaurant' : 'dot-business';
+    const dotClass = p.category === ' Prussian & Imperial Landmarks' ? 'dot- Prussian & Imperial Landmarks' : p.category === 'Berlin Wall & Cold War Sites' ? 'dot-Berlin Wall & Cold War Sites' : p.category === 'Third Reich & Totalitarian Ruins ' ? 'dot-Third Reich & Totalitarian Ruins '  : p.category === 'Hidden Gems & Secret Parks ' ? 'dot-Hidden Gems & Secret Parks ' : p.category === 'World-Class Museums  ' ? 'dot-World-Class Museums ' : p.category === ' Leisure & Classic Berlin ' ? 'dot- Leisure & Classic Berlin ';
     return `<div class="map-place-item${selectedPlaceId === p.id ? ' selected' : ''}" id="map-item-${p.id}" onclick="selectPlace(${p.id})">
       <div class="map-place-dot ${dotClass}"></div>
       <div class="map-place-info"><div class="map-place-name">${p.name}</div><div class="map-place-cat">${p.category}</div></div>
@@ -184,9 +184,9 @@ function highlightSidebarItem(id) {
 /* ── GLOBAL STATE ── */
 let planDays = 2;
 let planDiff = 'moderate';
-let planInterests = new Set(['history']);
+let planInterests = new Set([' ']);
 
-/* ── AI PLANNER FUNCTIONS ── */
+/* ── Create my trip FUNCTIONS ── */
 function updateDays(val) {
   planDays = parseInt(val);
   const pct = ((val - 1) / 6 * 100).toFixed(1);
