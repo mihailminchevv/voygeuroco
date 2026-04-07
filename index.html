@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Voyageur & Co — Discover Varna</title>
+  <title>Voyageur & Co — Discover Berlin</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon">
-<title>Voyageur & Co — Discover Varna</title>
+<title>Voyageur & Co — Discover Berlin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
@@ -25,10 +25,11 @@
   </div>
   <ul class="nav-links">
     <li><a onclick="navigate('home')" data-page="home">Home</a></li>
-    <li><a onclick="navigate('directory')" data-page="directory">Directory</a></li>
-    <li><a onclick="navigate('map')" data-page="map">Map</a></li>
+    <li><a onclick="navigate('Explore')" data-page="Explore">Explore</a></li>
+    <li><a onclick="navigate('Tours')" data-page="Tours">Tours</a></li>
     <li><a onclick="navigate('blog')" data-page="blog">Blog</a></li>
-    <li><a onclick="navigate('plan')" data-page="plan" style="color: var(--gold); border: 1px solid rgba(201,168,76,0.35); padding: 5px 14px; border-radius: 100px;">AI Planner</a></li>
+    <li><a onclick="navigate('map')" data-page="map">Map</a></li>
+    <li><a onclick="navigate('create')" data-page="create" style="color: var(--gold); border: 1px solid rgba(201,168,76,0.35); padding: 5px 14px; border-radius: 100px;">Create my trip</a></li>
   </ul>
 </nav>
 
@@ -39,18 +40,18 @@
     <div class="hero-bg"></div>
     <div class="hero-pattern"></div>
     <div class="hero-content">
-      <div class="hero-eyebrow">Explore Bulgaria</div>
-      <h1 class="hero-title">Discover<br><em>Varna</em></h1>
-      <p class="hero-subtitle">The Pearl of the Black Sea</p>
+      <div class="hero-eyebrow">Explore Germany</div>
+      <h1 class="hero-title">Discover<br><em>Berlin</em></h1>
+      <p class="hero-subtitle">Berlin: A Symphony of Power and Time</p>
       <p class="hero-description">
-        A curated guide to Varna's finest locations — from ancient Roman baths to sun-drenched seaside cafés. Explore the city through an interactive map, handpicked directory, and local insights.
+       A curated intelligence on Berlin’s architectural legacy and strategic hubs. From Imperial monuments to the scars of the Cold War—explore the city through an interactive grid, analytical directory, and handpicked insights for the discerning traveler.
       </p>
       <div class="btn-group">
         <button class="btn-primary" onclick="navigate('map')">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
           Explore the Map
         </button>
-        <button class="btn-outline" onclick="navigate('directory')">Browse Directory</button>
+        <button class="btn-outline" onclick="navigate('directory')">Tours</button>
       </div>
     </div>
     <div class="hero-scroll">
@@ -62,7 +63,7 @@
   <section class="home-features">
     <div class="section-header">
       <span class="section-label">What We Offer</span>
-      <h2 class="section-title">Your Guide to<br><em style="font-style:italic; color: var(--gold-light);">Varna</em></h2>
+      <h2 class="section-title">Your Guide to<br><em style="font-style:italic; color: var(--gold-light);">Berlin</em></h2>
       <div class="section-line"></div>
     </div>
     <div class="features-grid">
@@ -71,7 +72,7 @@
           <svg viewBox="0 0 24 24"><path d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
         </div>
         <h3 class="feature-title">Interactive Map</h3>
-        <p class="feature-text">Navigate Varna's landmarks, restaurants, and hidden gems on a fully interactive map powered by OpenStreetMap.</p>
+        <p class="feature-text">Navigate Berlin's landmarks, restaurants, and hidden gems on a fully interactive map powered by OpenStreetMap.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">
@@ -92,7 +93,7 @@
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
         </div>
         <h3 class="feature-title">Local Discovery</h3>
-        <p class="feature-text">From the Sea Garden to ancient Roman Baths — every corner of this Black Sea city, beautifully presented.</p>
+        <p class="feature-text">From the Prussian grandeur of the Reichstag to the silent remnants of the Berlin Wall — decoding the layers of history and power in Europe’s most iconic hub..</p>
       </div>
     </div>
   </section>
@@ -100,51 +101,71 @@
   <section class="home-highlights">
     <div class="section-header">
       <span class="section-label" style="color: var(--navy);">Featured Places</span>
-      <h2 class="section-title section-title-dark">Must-See in Varna</h2>
+      <h2 class="section-title section-title-dark">Must-See in Berlin</h2>
       <div class="section-line"></div>
     </div>
     <div class="highlights-grid">
-      <div class="highlight-card" onclick="navigate('directory')">
+      <div class="highlight-card" onclick="navigate('explore')">
         <div class="highlight-img">
           <div class="highlight-img-inner" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Varna_-_Cathedral_%281%29.jpg/800px-Varna_-_Cathedral_%281%29.jpg'); background-size: cover; background-position: center;"></div>
           <span class="highlight-cat">Tourist Place</span>
         </div>
-        <div class="highlight-body">
-          <h3 class="highlight-name">Cathedral of the Assumption</h3>
-          <p class="highlight-desc">One of Bulgaria's largest cathedrals, consecrated in 1886. Its soaring neo-Byzantine domes and spectacular frescoes make it Varna's most iconic landmark.</p>
-        </div>
-      </div>
       <div class="highlight-card" onclick="navigate('directory')">
         <div class="highlight-img">
           <div class="highlight-img-inner" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Varna_sea_garden.jpg/1280px-Varna_sea_garden.jpg'); background-size: cover; background-position: center;"></div>
           <span class="highlight-cat">Tourist Place</span>
         </div>
-        <div class="highlight-body">
-          <h3 class="highlight-name">The Sea Garden</h3>
-          <p class="highlight-desc">An 80-hectare coastal park along the Black Sea, home to the Dolphinarium, Summer Theatre, and miles of breathtaking clifftop walkways.</p>
+       <section class="highlights">
+    <div class="highlight-grid" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; padding: 20px;">
+      
+      <!-- Highlight 1: The Reichstag (Power) -->
+      <div class="highlight-card" onclick="navigate('directory')" style="flex: 1; min-width: 300px; max-width: 400px; cursor: pointer; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <div class="highlight-img" style="position: relative; height: 250px;">
+          <div class="highlight-img-inner" style="background-image: url('https://wikimedia.org'); background-size: cover; background-position: center; height: 100%;"></div>
+          <span class="highlight-cat" style="position: absolute; top: 15px; left: 15px; background: black; color: white; padding: 5px 12px; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Strategic Legacy</span>
+        </div>
+        <div class="highlight-body" style="padding: 20px;">
+          <h3 class="highlight-name" style="margin: 0 0 10px 0; font-family: 'Playfair Display', serif; font-size: 22px;">The Reichstag</h3>
+          <p class="highlight-desc" style="margin: 0; color: #333; font-size: 14px; line-height: 1.6;">The seat of the German Parliament. An architectural masterpiece of stone and glass, representing the turbulent evolution of European power and democratic resilience.</p>
         </div>
       </div>
-      <div class="highlight-card" onclick="navigate('directory')">
-        <div class="highlight-img">
-          <div class="highlight-img-inner" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Roman_Thermae_-_Varna_-_panoramio.jpg/800px-Roman_Thermae_-_Varna_-_panoramio.jpg'); background-size: cover; background-position: center;"></div>
-          <span class="highlight-cat">Tourist Place</span>
+
+      <!-- Highlight 2: Checkpoint Charlie (Intelligence) -->
+      <div class="highlight-card" onclick="navigate('directory')" style="flex: 1; min-width: 300px; max-width: 400px; cursor: pointer; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <div class="highlight-img" style="position: relative; height: 250px;">
+          <div class="highlight-img-inner" style="background-image: url('https://wikimedia.org'); background-size: cover; background-position: center; height: 100%;"></div>
+          <span class="highlight-cat" style="position: absolute; top: 15px; left: 15px; background: black; color: white; padding: 5px 12px; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Cold War Frontier</span>
         </div>
-        <div class="highlight-body">
-          <h3 class="highlight-name">Roman Thermae</h3>
-          <p class="highlight-desc">The largest ancient Roman baths on the Balkan Peninsula. Dating from the 2nd century AD, the ruins stand nearly 20 metres high and are unforgettable at dusk.</p>
+        <div class="highlight-body" style="padding: 20px;">
+          <h3 class="highlight-name" style="margin: 0 0 10px 0; font-family: 'Playfair Display', serif; font-size: 22px;">Checkpoint Charlie</h3>
+          <p class="highlight-desc" style="margin: 0; color: #333; font-size: 14px; line-height: 1.6;">The most famous crossing point between East and West. A silent witness to the intelligence battles of the Cold War and the ultimate symbol of a divided world.</p>
         </div>
       </div>
+
+      <!-- Highlight 3: Brandenburg Gate (Grandeur) -->
+      <div class="highlight-card" onclick="navigate('directory')" style="flex: 1; min-width: 300px; max-width: 400px; cursor: pointer; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <div class="highlight-img" style="position: relative; height: 250px;">
+          <div class="highlight-img-inner" style="background-image: url('https://wikimedia.org'); background-size: cover; background-position: center; height: 100%;"></div>
+          <span class="highlight-cat" style="position: absolute; top: 15px; left: 15px; background: black; color: white; padding: 5px 12px; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Prussian Grandeur</span>
+        </div>
+        <div class="highlight-body" style="padding: 20px;">
+          <h3 class="highlight-name" style="margin: 0 0 10px 0; font-family: 'Playfair Display', serif; font-size: 22px;">Brandenburg Gate</h3>
+          <p class="highlight-desc" style="margin: 0; color: #333; font-size: 14px; line-height: 1.6;">The ultimate icon of Berlin. A neoclassical masterpiece commissioned by King Frederick William II, standing as a testament to Prussian glory and reunification.</p>
+        </div>
+      </div>
+
     </div>
-  </section>
+</section>
+
 
   <section class="home-stats">
     <div class="stats-row">
       <div>
-        <div class="stat-num">25</div>
+        <div class="stat-num">42</div>
         <div class="stat-label">Curated Places</div>
       </div>
       <div>
-        <div class="stat-num">3</div>
+        <div class="stat-num">6</div>
         <div class="stat-label">Categories</div>
       </div>
       <div>
@@ -160,13 +181,13 @@
 
 </div>
 
-<!-- ══════════════════════════════════════════════ DIRECTORY ══ -->
-<div id="page-directory" class="page">
+<!-- ══════════════════════════════════════════════ Еxplore ══ -->
+<div id="page-explore" class="page">
 
   <div class="page-hero">
     <div class="page-hero-label">Browse Locations</div>
-    <h1 class="page-hero-title">The Varna <em>Directory</em></h1>
-    <p class="page-hero-sub">Curated places across Varna — from historic landmarks to neighbourhood gems.</p>
+    <h1 class="page-hero-title">The Berlin <em>Directory</em></h1>
+    <p class="page-hero-sub">Curated places across Berlin — from historic landmarks to neighbourhood gems.</p>
   </div>
 
   <div class="dir-controls">
@@ -175,10 +196,7 @@
       <input type="text" id="dir-search-input" placeholder="Search places…" oninput="renderDirectory()">
     </div>
     <div class="filter-pills">
-      <div class="pill active" data-filter="all" onclick="setDirFilter('all')">All</div>
-      <div class="pill" data-filter="Tourist Place" onclick="setDirFilter('Tourist Place')">Tourist</div>
-      <div class="pill" data-filter="Local Business" onclick="setDirFilter('Local Business')">Local Business</div>
-      <div class="pill" data-filter="Hidden gems" onclick="setDirFilter('Hidden gems')">Hidden gems</div>
+     
     </div>
   </div>
 
@@ -193,7 +211,7 @@
   <div class="map-layout">
     <aside class="map-sidebar">
       <div class="map-sidebar-header">
-        <div class="map-sidebar-title">Varna Locations</div>
+        <div class="map-sidebar-title">Berlin Locations</div>
         <div class="map-sidebar-sub" id="map-count">25 places available</div>
         <div class="map-search">
           <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
@@ -202,9 +220,12 @@
       </div>
       <div class="map-filter-row" id="map-filter-row">
         <div class="map-pill active" data-filter="all" onclick="setMapFilter('all')">All</div>
-        <div class="map-pill" data-filter="Tourist Place" onclick="setMapFilter('Tourist Place')">Tourist</div>
-        <div class="map-pill" data-filter="Local Business" onclick="setMapFilter('Local Business')">Business</div>
-         <div class="map-pill" data-filter="Hidden gems" onclick="setMapFilter('Hidden gems')">Hidden gems</div>
+      <div class= "map-pill active" Imperial Legacy & Grandeur" onclick="setDirFilter(' Imperial Legacy & Grandeur')"> Imperial Legacy & Grandeur</div>
+      <div class= "map-pill active" Berlin Wall & Cold War Sites" onclick="setDirFilter(' Berlin Wall & Cold War Sites')"> Berlin Wall & Cold War Sitess</div>
+      <div class = "map-pill active" Hidden Gems & Secret Parks" onclick="setDirFilter('Hidden Gems & Secret Parks')">Hidden Gems & Secret Parks</div>
+      <div class= "map-pill active" World-Class Museums " onclick="setDirFilter('World-Class Museums ')">World-Class Museums </div>
+       <div class= "map-pill active" Leisure & Classic Berlin " onclick="setDirFilter('Leisure & Classic Berlin')">Leisure & Classic Berlin </div>
+       <div class= "map-pill active" Third Reich & Totalitarian Ruins " onclick="setDirFilter('Third Reich & Totalitarian Ruins')">Third Reich & Totalitarian Ruins </div>
       </div>
       <div class="map-places-list" id="map-places-list"></div>
       <div class="map-info-bar">
@@ -212,9 +233,12 @@
         <div class="map-info-coords" id="map-selected-coords">—</div>
       </div>
       <div class="map-legend">
-        <div class="legend-item"><div class="legend-dot dot-tourist"></div>Tourist</div>
-        <div class="legend-item"><div class="legend-dot dot-business"></div>Business</div>
-         <div class="legend-item"><div class="legend-dot dot-hidden gems"></div>Hidden gems</div>
+        <div class="legend-item"><div class="legend-dot dot-Imperial Legacy & Grandeur"></div>Imperial Legacy & Grandeur</div>
+        <div class="legend-item"><div class="legend-dot dot-Berlin Wall & Cold War Sitess"></div>Berlin Wall & Cold War Sitess</div>
+         <div class="legend-item"><div class="legend-dot dot-Hidden Gems & Secret Parks"></div>Hidden Gems & Secret Parks</div>
+         <div class="legend-item"><div class="legend-dot dot-World-Class Museums"></div>World-Class Museums</div>
+         <div class="legend-item"><div class="legend-dot dot-Leisure & Classic Berlin"></div>Leisure & Classic Berlin</div>
+         <div class="legend-item"><div class="legend-dot dot-Third Reich & Totalitarian Ruins"></div>Third Reich & Totalitarian Ruins</div>
       </div>
     </aside>
     <div id="map-container">
@@ -269,7 +293,7 @@
   <div class="page-hero">
     <div class="page-hero-label">Powered by AI</div>
     <h1 class="page-hero-title">Plan Your <em>Trip</em></h1>
-    <p class="page-hero-sub">Tell us when you're visiting and what you love — we'll build your personal Varna itinerary.</p>
+    <p class="page-hero-sub">Tell us when you're visiting and what you love — we'll build your personal Berlin trip.</p>
   </div>
 
   <div class="plan-layout">
@@ -283,7 +307,7 @@
         </div>
         <div>
           <div class="plan-form-title">AI Travel Planner</div>
-          <div class="plan-form-sub">Your personal itinerary for Varna, Bulgaria</div>
+          <div class="plan-form-sub">Your personal itinerary for Berlin, Germany</div>
         </div>
       </div>
 
@@ -303,6 +327,7 @@
             <span class="days-tick" onclick="setDays(1)">1 day</span>
             <!-- ✅ active е на 2, защото value="2" -->
             <span class="days-tick active" onclick="setDays(2)">2 days</span>
+            <span class="days-tick" onclick="setDays(1)">1 days</span>
             <span class="days-tick" onclick="setDays(3)">3 days</span>
             <span class="days-tick" onclick="setDays(4)">4 days</span>
             <span class="days-tick" onclick="setDays(5)">5 days</span>
@@ -371,7 +396,7 @@
   <svg viewBox="0 0 24 24">
     <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
   </svg>
-  Build My Itinerary
+  Build My Trip
 </button>
 
       </div>
@@ -380,14 +405,14 @@
     <!-- Loading -->
     <div class="plan-loading" id="plan-loading">
       <div class="plan-loading-spinner"></div>
-      <div class="plan-loading-text">Crafting your personal Varna itinerary…</div>
+      <div class="plan-loading-text">Crafting your personal Berlin trip…</div>
     </div>
 
     <!-- Result -->
     <div class="plan-result" id="plan-result">
       <div class="plan-result-header">
         <div>
-          <div class="plan-result-title">Your Varna Itinerary</div>
+          <div class="plan-result-title">Your Berlin Trip</div>
           <div class="plan-result-meta" id="plan-result-meta"></div>
         </div>
         <span class="plan-result-badge">AI Generated</span>
@@ -402,24 +427,28 @@
   <div class="footer-inner">
     <div>
       <div class="footer-brand-name">Voyageur<span>&amp;Co</span></div>
-      <p class="footer-brand-desc">A curated digital guide to Varna, Bulgaria — helping travelers discover the Pearl of the Black Sea.</p>
+      <p class="footer-brand-desc">A curated digital guide to Berlin, Germany — helping travelers discover Berlin through another perspective.</p>
     </div>
     <div>
       <div class="footer-col-title">Navigate</div>
       <ul class="footer-links">
-        <li><a onclick="navigate('home')">Home</a></li>
-        <li><a onclick="navigate('directory')">Directory</a></li>
-        <li><a onclick="navigate('map')">Map</a></li>
-        <li><a onclick="navigate('blog')">Blog</a></li>
-        <li><a onclick="navigate('plan')">AI Planner</a></li>
+        <li><a onclick="navigate('home')" data-page="home">Home</a></li>
+    <li><a onclick="navigate('Explore')" data-page="Explore">Explore</a></li>
+    <li><a onclick="navigate('Tours')" data-page="Tours">Tours</a></li>
+    <li><a onclick="navigate('blog')" data-page="blog">Blog</a></li>
+    <li><a onclick="navigate('map')" data-page="map">Map</a></li>
+        <li><a onclick="navigate('create')">Create my trip</a></li>
       </ul>
     </div>
     <div>
       <div class="footer-col-title">Categories</div>
       <ul class="footer-links">
-        <li><a onclick="navigate('directory'); setTimeout(()=>setDirFilter('Tourist Place'),100)">Tourist Places</a></li>
-        <li><a onclick="navigate('directory'); setTimeout(()=>setDirFilter('Local Business'),100)">Local Business</a></li>
-         <li><a onclick="navigate('directory'); setTimeout(()=>setDirFilter('Hidden gems'),100)">Hidden gems</a></li>
+        <li><a onclick="navigate('directory'); setTimeout(()=>setDirFilter('Prussian & Imperial Landmarks '),100)">Prussian & Imperial Landmarks </a></li>
+        <li><a onclick="navigate('directory'); setTimeout(()=>setDirFilter(' Berlin Wall & Cold War Sites'),100)"> Berlin Wall & Cold War Sites</a></li>
+         <li><a onclick="navigate('directory'); setTimeout(()=>setDirFilter('Third Reich & Totalitarian Ruins'),100)">Third Reich & Totalitarian Ruins</a></li>
+         <li><a onclick="navigate('directory'); setTimeout(()=>setDirFilter('Hidden Gems & Secret Parks'),100)">Hidden Gems & Secret Parks</a></li>
+        <li><a onclick="navigate('directory'); setTimeout(()=>setDirFilter(' World-Class Museums'),100)"> World-Class Museums</a></li>
+        <li><a onclick="navigate('directory'); setTimeout(()=>setDirFilter('Leisure & Classic Berlin'),100)">Leisure & Classic Berlin</a></li>
       </ul>
     </div>
     <div>
@@ -432,7 +461,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <span class="footer-copy">&copy; 2026 Voyageur  &amp; Co — Varna, Bulgaria</span>
+    <span class="footer-copy">&copy; 2026 Voyageur  &amp; Co — Berlin, Germany</span>
     <span class="footer-badge">Version 1.0</span>
   </div>
 </footer>
