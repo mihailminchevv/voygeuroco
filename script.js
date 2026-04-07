@@ -34,62 +34,90 @@ let mapMarkers = [];
 let selectedPlaceId = null;
 let mapInitialized = false;
 
-
-
 /* ── NAVIGATION ── */
 function navigate(page) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+
   document.getElementById('page-' + page).classList.add('active');
-  const navLink = document.querySelector('[data-page="' + page + '"]');
+
+  const navLink = document.querySelector(`[data-page="${page}"]`);
   if (navLink) navLink.classList.add('active');
+
   window.scrollTo(0, 0);
-  if (page === 'directory') renderDirectory();
+
+  if (page === 'explore') renderExplore();
   if (page === 'map') initMap();
-  if (page === 'blog') renderBlog();
+
   window.location.hash = page;
 }
 
 window.addEventListener('hashchange', () => {
   const h = window.location.hash.replace('#', '') || 'home';
-  if (['home', 'explore', 'explore','map', 'blog', 'create'].includes(h)) navigate(h);
+  if (['home', 'explore', 'map', 'blog', 'create'].includes(h)) {
+    navigate(h);
+  }
 });
 
-/* ── Еxplore ── */
+/* ── EXPLORE ── */
 function setDirFilter(f) {
   dirFilter = f;
+
   document.querySelectorAll('#page-explore .pill').forEach(p => {
     p.classList.toggle('active', p.dataset.filter === f);
   });
+
   renderExplore();
 }
 
+function goToPlace(id) {
+  navigate('map');
+  setTimeout(() => selectPlace(id), 300);
+}
+
 function renderExplore() {
-  const q = (document.getElementById('dir-search-input').value || '').toLowerCase();
+  const q = (document.getElementById('dir-search-input')?.value || '').toLowerCase();
+
   const filtered = attractions.filter(p => {
     const matchCat = dirFilter === 'all' || p.category === dirFilter;
-    const matchQ = !q || p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q);
+    const matchQ =
+      !q ||
+      p.name.toLowerCase().includes(q) ||
+      p.description.toLowerCase().includes(q);
+
     return matchCat && matchQ;
   });
+
   const grid = document.getElementById('dir-grid');
+
   if (!filtered.length) {
-    grid.innerHTML = '<div class="dir-empty">No places found. Try a different search or filter.</div>';
+    grid.innerHTML = `<div class="dir-empty">No places found.</div>`;
     return;
   }
-  grid.innerHTML = filtered.map((p,i) => {
-    const catClass = p.category === ' Prussian & Imperial Landmarks' ? 'cat- Prussian & Imperial Landmarks' : p.category === 'Berlin Wall & Cold War Sites' ? 'cat-Berlin Wall & Cold War Sites' : p.category === ' Third Reich & Totalitarian Ruins' ? 'cat- Third Reich & Totalitarian Ruins' : p.category === ' Hidden Gems & Secret Parks' ? 'cat- Hidden Gems & Secret Parks' :p.category === 'World-Class Museums' ? 'cat-World-Class Museums' :p.category === ' Leisure & Classic Berlin' ? 'cat- Leisure & Classic Berlin' :
-    return `<div class="place-card" onclick="navigate('map'); setTimeout(() => selectPlace(${p.id}), 400)">
-      <div class="place-card-img" style="background-image: url('${p.image}'), linear-gradient(135deg, #1a2f45 0%, #0d1b2a 100%)"></div>
+
+  grid.innerHTML = filtered.map((p, i) => {
+    const catClass = p.category.toLowerCase().replace(/[^a-z0-9]/g, '-');
+
+    const image =
+      p.image && p.image.startsWith('http')
+        ? p.image
+        : 'https://via.placeholder.com/800x600';
+
+    return `
+    <div class="place-card" onclick="goToPlace(${p.id})">
+      <div class="place-card-img" style="background-image: url('${image}')"></div>
+
       <div class="place-card-header">
-        <div><span class="place-card-cat ${catClass}">${p.category}</span><div class="place-card-name">${p.name}</div></div>
-        <span class="place-card-number">${String(i+1).padStart(2,'0')}</span>
+        <div>
+          <span class="place-card-cat ${catClass}">${p.category}</span>
+          <div class="place-card-name">${p.name}</div>
+        </div>
+        <span class="place-card-number">${String(i + 1).padStart(2, '0')}</span>
       </div>
+
       <div class="place-card-body">
         <p class="place-card-desc">${p.description}</p>
-        <div class="place-card-footer">
-          <svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
-          ${p.city}, Germany
-        </div>
+        <div class="place-card-footer">${p.city}, Bulgaria</div>
       </div>
     </div>`;
   }).join('');
@@ -97,65 +125,74 @@ function renderExplore() {
 
 /* ── MAP ── */
 function getMarkerColor(cat) {
-  return cat === ' Prussian & Imperial Landmarks' ? '#c9a84c' : cat === 'Berlin Wall & Cold War Sites' ? '#5dcaa5' : cat === 'Hidden Gems & Secret Parks' ? '#e07a55' : '#b0a8e8' : cat === 'Hidden Gems & Secret Parks' ? '#c9a84c' : cat === 'World-Class Museums' ? '#c9a84c' :cat === ' Leisure & Classic Berlin ' ? '#c9a84c' ;
+  switch (cat) {
+    case 'Historical Spots': return '#c9a84c';
+    case 'Scenic Places': return '#5dcaa5';
+    case 'Romantic Places': return '#e07a55';
+    case 'Hidden Gems': return '#b0a8e8';
+    case 'Local Food & Drinks': return '#f4a261';
+    default: return '#999';
+  }
 }
 
 function createMarkerIcon(cat) {
   const color = getMarkerColor(cat);
+
   return L.divIcon({
+    html: `<svg width="28" height="36" viewBox="0 0 28 36">
+      <path d="M14 0C6 0 0 6 0 14c0 10 14 22 14 22s14-12 14-22C28 6 22 0 14 0z" fill="${color}"/>
+      <circle cx="14" cy="14" r="5" fill="white"/>
+    </svg>`,
     className: '',
-    html: `<svg width="28" height="36" viewBox="0 0 28 36" xmlns="http://www.w3.org/2000/svg"><path d="M14 0C6.27 0 0 6.27 0 14c0 9.9 14 22 14 22S28 23.9 28 14C28 6.27 21.73 0 14 0z" fill="${color}"/><circle cx="14" cy="14" r="5" fill="white" opacity="0.9"/></svg>`,
-    iconSize: [28,36], iconAnchor: [14,36], popupAnchor: [0,-36]
+    iconSize: [28, 36],
+    iconAnchor: [14, 36]
   });
 }
 
 function initMap() {
   if (mapInitialized) return;
   mapInitialized = true;
+
   setTimeout(() => {
     leafletMap = L.map('leaflet-map').setView([43.2141, 27.9212], 13);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap', maxZoom: 19 }).addTo(leafletMap);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap'
+    }).addTo(leafletMap);
+
     attractions.forEach(p => {
-      const marker = L.marker([p.lat, p.lng], { icon: createMarkerIcon(p.category) })
+      const marker = L.marker([p.lat, p.lng], {
+        icon: createMarkerIcon(p.category)
+      })
         .addTo(leafletMap)
-        .bindPopup(`<div class="custom-popup-name">${p.name}</div><div class="custom-popup-cat" style="color:${getMarkerColor(p.category)}">${p.category}</div><div class="custom-popup-desc">${p.description.substring(0,100)}…</div>`, { maxWidth: 240 })
+        .bindPopup(`<b>${p.name}</b><br>${p.category}`)
         .on('click', () => highlightSidebarItem(p.id));
+
       mapMarkers.push({ id: p.id, marker, place: p });
     });
+
     renderMapList();
   }, 200);
-}
-
-function setMapFilter(f) {
-  mapFilter = f;
-  document.querySelectorAll('#page-map .map-pill').forEach(p => p.classList.toggle('active', p.dataset.filter === f));
-  filterMapPlaces();
-}
-
-function filterMapPlaces() {
-  const q = (document.getElementById('map-search-input').value || '').toLowerCase();
-  const filtered = attractions.filter(p => {
-    const matchCat = mapFilter === 'all' || p.category === mapFilter;
-    const matchQ = !q || p.name.toLowerCase().includes(q);
-    return matchCat && matchQ;
-  });
-  mapMarkers.forEach(({ id, marker }) => {
-    const visible = filtered.some(p => p.id === id);
-    if (visible) { if (!leafletMap.hasLayer(marker)) marker.addTo(leafletMap); }
-    else { if (leafletMap.hasLayer(marker)) leafletMap.removeLayer(marker); }
-  });
-  document.getElementById('map-count').textContent = `${filtered.length} place${filtered.length !== 1 ? 's' : ''} shown`;
-  renderMapList(filtered);
 }
 
 function renderMapList(list) {
   const data = list || attractions;
   const container = document.getElementById('map-places-list');
+
   container.innerHTML = data.map(p => {
-    const dotClass = p.category === ' Prussian & Imperial Landmarks' ? 'dot- Prussian & Imperial Landmarks' : p.category === 'Berlin Wall & Cold War Sites' ? 'dot-Berlin Wall & Cold War Sites' : p.category === 'Third Reich & Totalitarian Ruins ' ? 'dot-Third Reich & Totalitarian Ruins '  : p.category === 'Hidden Gems & Secret Parks ' ? 'dot-Hidden Gems & Secret Parks ' : p.category === 'World-Class Museums  ' ? 'dot-World-Class Museums ' : p.category === ' Leisure & Classic Berlin ' ? 'dot- Leisure & Classic Berlin ';
-    return `<div class="map-place-item${selectedPlaceId === p.id ? ' selected' : ''}" id="map-item-${p.id}" onclick="selectPlace(${p.id})">
+    const dotClass = p.category.toLowerCase().replace(/[^a-z0-9]/g, '-');
+
+    return `
+    <div class="map-place-item ${selectedPlaceId === p.id ? 'selected' : ''}"
+         id="map-item-${p.id}"
+         onclick="selectPlace(${p.id})">
+
       <div class="map-place-dot ${dotClass}"></div>
-      <div class="map-place-info"><div class="map-place-name">${p.name}</div><div class="map-place-cat">${p.category}</div></div>
+
+      <div>
+        <div>${p.name}</div>
+        <div>${p.category}</div>
+      </div>
     </div>`;
   }).join('');
 }
@@ -163,132 +200,67 @@ function renderMapList(list) {
 function selectPlace(id) {
   const p = attractions.find(x => x.id === id);
   if (!p) return;
+
   selectedPlaceId = id;
+
   if (leafletMap) {
-    leafletMap.setView([p.lat, p.lng], 16, { animate: true });
+    leafletMap.setView([p.lat, p.lng], 16);
     const m = mapMarkers.find(x => x.id === id);
     if (m) m.marker.openPopup();
   }
-  document.getElementById('map-selected-name').textContent = p.name;
-  document.getElementById('map-selected-coords').textContent = `${p.lat.toFixed(4)}° N, ${p.lng.toFixed(4)}° E`;
+
   highlightSidebarItem(id);
 }
 
 function highlightSidebarItem(id) {
-  selectedPlaceId = id;
-  document.querySelectorAll('.map-place-item').forEach(el => el.classList.remove('selected'));
+  document.querySelectorAll('.map-place-item')
+    .forEach(el => el.classList.remove('selected'));
+
   const el = document.getElementById('map-item-' + id);
-  if (el) { el.classList.add('selected'); el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+  if (el) el.classList.add('selected');
 }
 
-/* ── GLOBAL STATE ── */
+/* ── PLAN ── */
 let planDays = 2;
 let planDiff = 'moderate';
-let planInterests = new Set([' ']);
-
-/* ── Create my trip FUNCTIONS ── */
-function updateDays(val) {
-  planDays = parseInt(val);
-  const pct = ((val - 1) / 6 * 100).toFixed(1);
-  const slider = document.getElementById('days-slider');
-  slider.style.setProperty('--pct', pct + '%');
-  document.getElementById('days-display').textContent = val == 1 ? '1 day' : val + ' days';
-  document.querySelectorAll('.days-tick').forEach((t, i) => t.classList.toggle('active', i + 1 == val));
-}
-
-function setDays(val) {
-  document.getElementById('days-slider').value = val;
-  updateDays(val);
-}
-
-function setDiff(d) {
-  planDiff = d;
-  ['relaxed','moderate','intensive'].forEach(opt => {
-    document.getElementById('diff-' + opt).classList.toggle('selected', opt === d);
-  });
-}
-
-function toggleInterest(key) {
-  const el = document.getElementById('int-' + key);
-  if (planInterests.has(key)) {
-    planInterests.delete(key);
-    el.classList.remove('selected');
-  } else {
-    planInterests.add(key);
-    el.classList.add('selected');
-  }
-}
-
-function showError(msg) {
-  const el = document.getElementById('plan-error');
-  el.textContent = msg;
-  el.classList.add('visible');
-}
-
-function hideError() {
-  document.getElementById('plan-error').classList.remove('visible');
-}
+let planInterests = new Set();
 
 function generatePlan() {
-  hideError();
-
-  if (planInterests.size === 0) {
-    showError("Please select at least one interest to generate your plan.");
+  if (!planInterests.size) {
+    alert("Select at least one interest");
     return;
   }
 
   const interestMap = {
-    history:  ['Historical Spots'],
+    history: ['Historical Spots'],
     romantic: ['Romantic Places'],
-    scenic:   ['Scenic Places'],
-    food:     ['Local Food & Drinks'],
-    hidden:   ['Hidden Gems']
+    scenic: ['Scenic Places'],
+    food: ['Local Food & Drinks'],
+    hidden: ['Hidden Gems']
   };
 
   let filtered = attractions.filter(p =>
-    [...planInterests].some(key => interestMap[key]?.includes(p.category))
+    [...planInterests].some(key =>
+      interestMap[key]?.includes(p.category)
+    )
   );
 
-  if (!filtered.length) {
-    showError("No places match your selected interests.");
-    return;
-  }
-
-  // Shuffle
   filtered = filtered.sort(() => Math.random() - 0.5);
 
-  // Distribute per day
   const plan = Array.from({ length: planDays }, () => []);
+
   filtered.forEach((place, i) => {
     plan[i % planDays].push(place);
   });
 
-  // Relaxed mode
-  if (planDiff === 'relaxed') {
-    const maxPerDay = Math.floor(filtered.length / planDays) || 1;
-    plan.forEach((day, i) => {
-      plan[i] = day.slice(0, maxPerDay);
-    });
-  }
-
-  // Render results
   const container = document.getElementById('plan-results');
-  if (!container) return;
 
-  container.innerHTML = plan.map((dayPlaces, i) => `
-    <div class="plan-day">
+  container.innerHTML = plan.map((day, i) => `
+    <div>
       <h3>Day ${i + 1}</h3>
-      ${dayPlaces.length
-        ? `<ul>
-            ${dayPlaces.map(p => `
-              <li>
-                <strong>${p.name}</strong> (${p.category})<br>
-                ${(p.description ?? '').substring(0, 100)}…
-              </li>
-            `).join('')}
-           </ul>`
-        : '<p>No places scheduled for this day.</p>'
-      }
+      <ul>
+        ${day.map(p => `<li>${p.name}</li>`).join('')}
+      </ul>
     </div>
   `).join('');
 }
