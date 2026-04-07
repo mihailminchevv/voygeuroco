@@ -88,7 +88,7 @@ function renderExplore() {
         <p class="place-card-desc">${p.description}</p>
         <div class="place-card-footer">
           <svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
-          ${p.city}, Bulgaria
+          ${p.city}, Germany
         </div>
       </div>
     </div>`;
