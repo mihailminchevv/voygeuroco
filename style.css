@@ -545,102 +545,152 @@
   .pill:hover { border-color: var(--navy); color: var(--navy); }
   .pill.active { background: var(--navy); color: var(--white); border-color: var(--navy); }
 
-  /* Directory grid */
-  .dir-content {
-    max-width: 1200px;
+  /* Explore grid */
+.dir-content {
+    max-width: 1300px;
     margin: 0 auto;
     padding: 3rem 2rem;
-  }
+    background: transparent; /* Оставя диагоналите от основния фон да се виждат */
+}
 
-  .dir-grid {
+.dir-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
-  }
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+}
 
-  .place-card {
-    background: var(--white);
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-lg);
+/* 🛡️ Картата - Променена за Navy & Gold ранг */
+.place-card {
+    background: #0A1420; /* Твоето Navy Blue от снимката */
+    border: 1px solid rgba(201, 168, 76, 0.2); /* Дискретна златиста рамка */
+    border-radius: 0px; /* Old Money стил - остри, сурови ръбове */
     overflow: hidden;
-    transition: box-shadow 0.25s, transform 0.25s;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
-  }
-
-  .place-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 16px 40px rgba(13,27,42,0.1);
-  }
-
-  .place-card-header {
-    background: var(--navy);
-    padding: 1.4rem 1.4rem 1.2rem;
-    display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
     position: relative;
-  }
+}
 
-  .place-card-number {
-    font-family: var(--serif);
-    font-size: 3rem;
+.place-card:hover {
+    transform: translateY(-8px);
+    border-color: #C9A84C; /* Златото светва при инспекция */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+/* 📸 Снимката в картата */
+.place-card-img {
+    width: 100%;
+    height: 220px;
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(40%) contrast(110%);
+    transition: 0.6s ease;
+}
+
+.place-card:hover .place-card-img {
+    filter: grayscale(0%) contrast(100%);
+    transform: scale(1.05);
+}
+
+/* 🏛️ Хедърът на картата */
+.place-card-header {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 1.5rem 1.4rem 0.5rem;
+    display: flex; 
+    align-items: flex-start; 
+    justify-content: space-between; 
+    gap: 1rem;
+    position: relative;
+}
+
+/* 🔢 Нумерацията (Old Money воден знак) */
+.place-card-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
     font-weight: 700;
     font-style: italic;
-    color: rgba(201,168,76,0.2);
+    color: rgba(201, 168, 76, 0.15); /* Много фино злато */
     line-height: 1;
-    position: absolute; top: 8px; right: 14px;
+    position: absolute; 
+    top: 10px; 
+    right: 15px;
     user-select: none;
-  }
+}
 
-  .place-card-cat {
+/* 🏷️ Категориите - Злато и Интелект */
+.place-card-cat {
     font-size: 0.65rem;
-    font-weight: 500;
-    letter-spacing: 0.14em;
+    font-weight: 600;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
     padding: 4px 10px;
-    border-radius: 2px;
-  }
+    border: 1px solid rgba(201, 168, 76, 0.4);
+    color: #C9A84C;
+    background: rgba(201, 168, 76, 0.05);
+}
 
-  .cat-tourist { background: rgba(201,168,76,0.2); color: var(--gold-light); }
-  .cat-cafe { background: rgba(93,202,165,0.15); color: #5dcaa5; }
-  .cat-restaurant { background: rgba(216,90,48,0.2); color: #e07a55; }
-  .cat-business { background: rgba(135,119,221,0.2); color: #b0a8e8; }
+/* Специфични цветове за различните стратегии */
+.cat-tourist { border-color: #C9A84C; color: #C9A84C; }
+.cat-cafe { border-color: #5dcaa5; color: #5dcaa5; }
+.cat-restaurant { border-color: #e07a55; color: #e07a55; }
+.cat-business { border-color: #b0a8e8; color: #b0a8e8; }
 
-  .place-card-name {
-    font-family: var(--serif);
-    font-size: 1.15rem;
+/* 🖋️ Заглавието */
+.place-card-name {
+    font-family: 'Playfair Display', serif; /* Твоят серифен шрифт */
+    font-size: 1.25rem;
     font-weight: 600;
-    color: var(--white);
-    margin-top: 1rem;
+    color: #FFFFFF;
+    margin-top: 1.2rem;
     line-height: 1.3;
-    max-width: 80%;
-  }
+    max-width: 85%;
+    letter-spacing: 0.5px;
+}
 
-  .place-card-body { padding: 1.2rem 1.4rem; }
+/* 📖 Тялото и Описанието */
+.place-card-body { 
+    padding: 0.8rem 1.4rem 1.5rem; 
+}
 
-  .place-card-desc {
-    font-size: 0.875rem;
+.place-card-desc {
+    font-size: 0.9rem;
     font-weight: 300;
     line-height: 1.7;
-    color: var(--text-mid);
-    margin-bottom: 1rem;
-  }
+    color: rgba(255, 255, 255, 0.7); /* Сиво-бял контраст за четене в мрак */
+    margin-bottom: 1.5rem;
+}
 
-  .place-card-footer {
-    display: flex; align-items: center; gap: 6px;
-    font-size: 0.78rem;
-    color: var(--text-light);
-    border-top: 1px solid var(--border-light);
-    padding-top: 0.9rem;
-  }
+/* ⚓ Футърът */
+.place-card-footer {
+    display: flex; 
+    align-items: center; 
+    gap: 8px;
+    font-size: 0.75rem;
+    color: #C9A84C; /* Златист акцент за финал */
+    border-top: 1px solid rgba(201, 168, 76, 0.1);
+    padding-top: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
 
-  .place-card-footer svg { width: 13px; height: 13px; stroke: var(--text-light); fill: none; stroke-width: 2; }
+.place-card-footer svg { 
+    width: 14px; 
+    height: 14px; 
+    stroke: #C9A84C; 
+    fill: none; 
+    stroke-width: 1.5; 
+}
 
-  .dir-empty {
+/* 🌑 Празно състояние */
+.dir-empty {
     grid-column: 1/-1;
     text-align: center;
-    padding: 4rem 2rem;
-    color: var(--text-light);
-    font-size: 1rem;
-  }
+    padding: 5rem 2rem;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 1.1rem;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+}
+
 
   /* ── MAP PAGE ── */
   .map-layout {
