@@ -122,42 +122,55 @@ function goToPlace(id) {
 }
 
 function renderExplore() {
-  const q = (document.getElementById('dir-search-input')?.value || '').toLowerCase();
+
+  const inputEl = document.getElementById('dir-search-input');
+  const q = (inputEl?.value || '').trim().toLowerCase();
+
 
   const filtered = attractions.filter(p => {
-    const matchCat = dirFilter === 'all' || p.category === dirFilter;
-    const matchQ = !q || p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q);
+    
+    const matchCat = (typeof dirFilter === 'undefined' || dirFilter === 'all') || p.category === dirFilter;
+    const matchQ = !q || 
+                   p.name.toLowerCase().includes(q) || 
+                   (p.description && p.description.toLowerCase().includes(q));
     return matchCat && matchQ;
   });
 
   const grid = document.getElementById('dir-grid');
+  if (!grid) return; // Защита, ако елементът липсва
 
-  if (!filtered.length) {
-    grid.innerHTML = `<div class="dir-empty">No places found.</div>`;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="dir-empty">Мисията е невъзможна. Няма намерени локации.</div>`;
     return;
   }
 
+
   grid.innerHTML = filtered.map((p, i) => {
-    const catClass = p.category.toLowerCase().replace(/[^a-z0-9]/g, '-');
-    const image = p.image && p.image.startsWith('http') ? p.image : 'https://via.placeholder.com/800x600';
+    // Правим класа на категорията безопасен за CSS (напр. "Cold War" -> "cold-war")
+    const catClass = p.category ? p.category.toLowerCase().replace(/\s+/g, '-') : 'general';
+    
+
+    const image = p.image || 'https://placeholder.com';
 
     return `
-      <div class="place-card" onclick="goToPlace(${p.id})">
+      <div class="place-card" onclick="goToPlace('${p.id}')">
         <div class="place-card-img" style="background-image: url('${image}')"></div>
         <div class="place-card-header">
           <div>
-            <span class="place-card-cat ${catClass}">${p.category}</span>
+            <span class="place-card-cat cat-${catClass}">${p.category}</span>
             <div class="place-card-name">${p.name}</div>
           </div>
           <span class="place-card-number">${String(i + 1).padStart(2, '0')}</span>
         </div>
         <div class="place-card-body">
-          <p class="place-card-desc">${p.description}</p>
-          <div class="place-card-footer">${p.city}</div>
+          <p class="place-card-desc">${p.description || ''}</p>
+          <div class="place-card-footer">${p.city || 'Berlin'}</div>
         </div>
       </div>`;
   }).join('');
 }
+
 
 /* ── MAP ── */
 function getMarkerColor(cat) {
