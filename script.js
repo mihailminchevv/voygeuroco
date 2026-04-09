@@ -106,16 +106,28 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 /* ── EXPLORE ── */
+
 function setDirFilter(f) {
-  dirFilter = f;
+  // Актуализираме визуално бутоните (Pills)
+  document.querySelectorAll('#page-explore .pill').forEach(p => {
+    p.classList.toggle('active', p.dataset.filter === f);
+  });
 
 
+  const items = document.querySelectorAll('.dir-item'); 
+  items.forEach(item => {
+    if (f === 'all') {
+      item.style.display = 'block'; 
+    } else {
+      item.style.display = item.dataset.category === f ? 'block' : 'none';
+    }
+  });
+}
+
+// 2. Активираме "All" автоматично при зареждане на страницата
 document.addEventListener("DOMContentLoaded", () => {
     const defaultFilter = 'all'; 
-    filterPlaces(defaultFilter); 
-    document.querySelectorAll('#page-explore .pill').forEach(p => {
-        p.classList.toggle('active', p.dataset.filter === defaultFilter);
-    });
+    setDirFilter(defaultFilter); // Използваме същото име на функцията!
 });
 
 
