@@ -112,9 +112,6 @@ function setDirFilter(f) {
   document.querySelectorAll('.filter-pills .pill').forEach(p => {
     p.classList.toggle('active', p.dataset.filter === f);
   });
-
-
-
   document.querySelectorAll('.dir-item').forEach(item => {
     if (f === 'All') {
       item.style.display = 'block'; // Показва всичко при клик на All
@@ -124,28 +121,19 @@ function setDirFilter(f) {
     }
   });
 }
-
-}
 document.addEventListener("DOMContentLoaded", () => {
     setDirFilter('All'); 
 });
-
-
-
 document.addEventListener("DOMContentLoaded", () => {
     const defaultFilter = 'all'; 
     setDirFilter(defaultFilter); // Използваме същото име на функцията!
 });
-
-
   renderExplore();
 }
-
 function goToPlace(id) {
   navigate('map');
   setTimeout(() => selectPlace(id), 300);
 }
-
 /* ✅ ТУК ГО СЛАГАШ */
 function renderFilterPills() {
   const categories = [...new Set(attractions.map(p => p.category))];
