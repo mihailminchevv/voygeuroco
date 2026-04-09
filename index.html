@@ -163,7 +163,7 @@
 <div id="page-explore" class="page">
   <div class="page-hero">
     <div class="page-hero-label">Browse Locations</div>
-    <h1 class="page-hero-title">The Berlin <em>Explore<em> page</em></h1>
+    <h1 class="page-hero-title">The Berlin<em>Explore<em> page</em></h1>
     <p class="page-hero-sub">Curated places across Berlin — from historic landmarks to neighbourhood gems.</p>
   </div>
   <div class="dir-controls">
@@ -172,8 +172,8 @@
       <input type="text" id="dir-search-input" placeholder="Search places…" oninput="renderDirectory()">
     </div>
     <div class="filter-pills">
-      <div class="pill active" data-filter="all" onclick="setDirFilter('all')">All</div>
-      <div class="pill" data-filter="Tourist Place" onclick="setDirFilter('Prussian & Imperial Landmarks')">Prussian & Imperial Landmarkst</div>
+      <div class="pill active" data-filter="All" onclick="setDirFilter('All')">All</div>
+      <div class="pill" data-filter="Prussian & Imperial Landmarks" onclick="setDirFilter('Prussian & Imperial Landmarks')">Prussian & Imperial Landmarkst</div>
       <div class="pill" data-filter=" Berlin Wall & Cold War Sites" onclick="setDirFilter(' Berlin Wall & Cold War Sites')"> Berlin Wall & Cold War Sites</div>
       <div class="pill" data-filter="Third Reich & Totalitarian Ruins" onclick="setDirFilter('Third Reich & Totalitarian Ruins')">Third Reich & Totalitarian Ruins</div>
   <div class="pill" data-filter="Hidden Gems & Secret Parks" onclick="setDirFilter('Hidden Gems & Secret Parks')">Hidden Gems & Secret Parks</div>
@@ -411,7 +411,7 @@
     <!--    <li><a onclick="navigate('create')">Create my trip</a></li>
       </ul>
     </div>-->
-   <!--  <div>
+     <div>
      <div class="footer-col-title">Categories</div>
       <ul class="footer-links">
        <li><a onclick="navigate('explore'); setTimeout(()=>setDirFilter('Prussian & Imperial Landmarks '),100)">Prussian & Imperial Landmarks </a></li>
@@ -422,7 +422,7 @@
         <li><a onclick="navigate('explore'); setTimeout(()=>setDirFilter('Leisure & Classic Berlin'),100)">Leisure & Classic Berlin</a></li>
       </ul>
     </div>
-    <div>-->
+    <div>
       <div class="footer-col-title">Explore</div>
       <ul class="footer-links">
         <li><a onclick="navigate('map')">Interactive Map</a></li>
@@ -436,6 +436,22 @@
     <span class="footer-copy">&copy; 2026 Voyageur &amp; Co — Berlin, Germany</span>
     <span class="footer-badge">Version 1.0</span>
   </div>
+          <div id="email-container" style="margin-top: 10px;">
+        <span id="secure-email" style="cursor: pointer; color: #7f8c8d; text-decoration: underline;"></span>
+    </div>
+
+    <script>
+        // Сглобяваме имейла динамично след зареждане
+        window.onload = function() {
+            var user = "voygeurco.trips";
+            var domain = "gmail.com";
+            var element = document.getElementById("secure-email");
+            element.innerHTML = user + "@" + domain;
+            element.onclick = function() {
+                window.location.href = "mailto:" + user + "@" + domain;
+            };
+        };
+    </script>
 </footer>
 <script src="blog.js"></script>
 <script src="script.js"></script>
