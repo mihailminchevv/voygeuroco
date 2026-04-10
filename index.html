@@ -27,7 +27,7 @@
  <li><a onclick="navigate('explore'); setTimeout(()=>setDirFilter('Explore '),100)">Explore </a></li>
    <li><a onclick="navigate('blog')" data-page="blog">Blog</a></li>
     <li><a onclick="navigate('map')" data-page="map">Map</a></li>
-    <a onclick="navigate('create')" data-page="create"
+ <li>   <a onclick="navigate('create')" data-page="create"
        style="color: var(--gold); border: 1px solid rgba(201,168,76,0.35); padding: 5px 14px; border-radius: 100px;">
        Create my trip
     </a>
@@ -261,7 +261,7 @@
   </div>
 </div>  
 <!-- ════════════════════════════════════════════Create my trip══ -->
-<div id="page-plan" class="page">
+<div id="page-create" class="page">
  
   <div class="page-hero">
     <div class="page-hero-label">Powered by AI</div>
@@ -426,7 +426,7 @@
     <span class="footer-copy">&copy; 2026 Voyageur &amp; Co — Berlin, Germany</span>
     <span class="footer-badge">Version 1.0</span>
   </div>
-          <div id="email-container" style="margin-top: 10px;">
+      <!--     <div id="email-container" style="margin-top: 10px;">
         <span id="secure-email" style="cursor: pointer; color: #7f8c8d; text-decoration: underline;"></span>
     </div>
 
@@ -441,7 +441,7 @@
                 window.location.href = "mailto:" + user + "@" + domain;
             };
         };
-    </script>
+    </script>-->
 </footer>
 <script src="blog.js"></script>
 <script src="script.js"></script>
