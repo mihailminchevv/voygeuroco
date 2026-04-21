@@ -329,25 +329,24 @@ async function generatePlan() {
     return;
   }
 
-  // Показваме loading
   const loading = document.getElementById('plan-loading');
   const result  = document.getElementById('plan-result');
   const btn     = document.getElementById('plan-btn');
-  if (loading) loading.classList.add('visible');
-  if (result)  result.classList.remove('visible');
-  if (btn)     btn.disabled = true;
 
-  // Строим промпта
+  loading?.classList.add('visible');
+  result?.classList.remove('visible');
+  btn.disabled = true;
+
   const interests = [...planInterests].join(', ');
+
   const prompt = `You are a travel guide for Berlin, Germany.
 Create a detailed ${planDays}-day itinerary for a tourist with these interests: ${interests}.
-Trip pace: ${planDiff} (relaxed = 2-3 places/day, moderate = 4-5 places/day, intensive = 6+ places/day).
-Format the response with clear Day 1, Day 2 headings and bullet points for each place.
-Include the place name, a short description, and why it matches the tourist's interests.
+Trip pace: ${planDiff}.
+Format with clear days and bullet points.
 Write in English.`;
 
   try {
-    const response = await fetch('https://zuirhbackend.onrender.com'), {
+    const response = await fetch('https://zuirhbackend.onrender.com/api/ai', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt })
@@ -355,23 +354,24 @@ Write in English.`;
 
     const data = await response.json();
 
-    if (data.error) {
-      showError("AI error: " + data.error);
+    if (!data.result) {
+      showError("AI returned empty response");
       return;
     }
 
-    // Показваме резултата
-    document.getElementById('plan-result-meta').textContent =
-      `${planDays} ${planDays === 1 ? 'day' : 'days'} · ${planDiff} pace · ${[...planInterests].join(', ')}`;
     document.getElementById('plan-results').innerHTML =
       data.result.replace(/\n/g, '<br>');
-    if (result) result.classList.add('visible');
+
+    document.getElementById('plan-result-meta').textContent =
+      `${planDays} ${planDays === 1 ? 'day' : 'days'} · ${planDiff} pace · ${interests}`;
+
+    result?.classList.add('visible');
 
   } catch (err) {
-    showError("Could not connect to the server. Please try again.");
     console.error(err);
+    showError("Server error. Try again.");
   } finally {
-    if (loading) loading.classList.remove('visible');
-    if (btn)     btn.disabled = false;
+    loading?.classList.remove('visible');
+    btn.disabled = false;
   }
 }
