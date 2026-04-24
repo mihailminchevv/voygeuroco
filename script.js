@@ -108,10 +108,15 @@ const cities = {
 };
 
 /* ── STATE ── */
-let dirFilter = "all";
 let currentCity = "berlin";
-let activeAttractions = cities.berlin.attractions;
+let dirFilter = "all";
+let mapFilter = "all";
 
+let activeAttractions = [];
+let leafletMap = null;
+let mapMarkers = [];
+let selectedPlaceId = null;
+let mapInitialized = false;
 /* ─────────────────────────────
    CITY SWITCHER (HAMBURGER MENU)
 ────────────────────────────── */
