@@ -1666,3 +1666,32 @@
   #site-footer {
     display: block !important;
   }
+/* ── City Switcher ── */
+.city-switcher {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.city-switcher button {
+  background: #1A2F45;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-family: inherit;
+}
+
+.city-switcher button:hover {
+  background: #E8C000;
+  color: black;
+  transform: translateY(-2px);
+}
+
+.city-switcher button:active {
+  transform: scale(0.95);
+}
