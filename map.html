@@ -9,7 +9,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 </head>
 <body>
-
 <!-- ── NAV ── -->
 <nav id="main-nav">
   <div class="nav-brand" onclick="window.location.href='index.html'">
@@ -32,7 +31,6 @@
     </li>
   </ul>
 </nav>
-
 <!-- ── MAP ── -->
 <div id="page-map" class="page active" style="padding-top: 64px;">
   <div class="map-layout">
@@ -45,26 +43,12 @@
           <input type="text" id="map-search-input" placeholder="Search…" oninput="filterMapPlaces()">
         </div>
       </div>
-
-      <!-- ✅ Поправени pills — data-filter добавен, невалидни атрибути премахнати -->
-      <div class="map-filter-row" id="map-filter-row">
-        <div class="map-pill active" data-filter="all" onclick="setMapFilter('all')">All</div>
-        <div class="map-pill" data-filter="Imperial Legacy & Grandeur" onclick="setMapFilter('Imperial Legacy & Grandeur')">Imperial Legacy & Grandeur</div>
-        <div class="map-pill" data-filter="Berlin Wall & Cold War Sites" onclick="setMapFilter('Berlin Wall & Cold War Sites')">Berlin Wall & Cold War Sites</div>
-        <div class="map-pill" data-filter="Hidden Gems & Secret Parks" onclick="setMapFilter('Hidden Gems & Secret Parks')">Hidden Gems & Secret Parks</div>
-        <div class="map-pill" data-filter="World-Class Museums" onclick="setMapFilter('World-Class Museums')">World-Class Museums</div>
-        <div class="map-pill" data-filter="Leisure & Classic Berlin" onclick="setMapFilter('Leisure & Classic Berlin')">Leisure & Classic Berlin</div>
-        <div class="map-pill" data-filter="Third Reich & Totalitarian Ruins" onclick="setMapFilter('Third Reich & Totalitarian Ruins')">Third Reich & Totalitarian Ruins</div>
-      </div>
-
       <div class="map-places-list" id="map-places-list"></div>
 
       <div class="map-info-bar">
         <div class="map-info-name" id="map-selected-name">Select a location</div>
         <div class="map-info-coords" id="map-selected-coords">—</div>
       </div>
-
-      <!-- ✅ Поправени dot класове — без интервали и & -->
       <div class="map-legend">
         <div class="legend-item"><div class="legend-dot dot-imperial"></div>Imperial Legacy & Grandeur</div>
         <div class="legend-item"><div class="legend-dot dot-coldwar"></div>Berlin Wall & Cold War Sites</div>
@@ -74,14 +58,11 @@
         <div class="legend-item"><div class="legend-dot dot-ww2"></div>Third Reich & Totalitarian Ruins</div>
       </div>
     </aside>
-
     <div id="map-container">
       <div id="leaflet-map"></div>
     </div>
   </div>
 </div>
-
 <script src="script.js"></script>
-
 </body>
 </html>
