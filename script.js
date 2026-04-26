@@ -99,9 +99,12 @@ function initCity(cityKey) {
   if (!city) return;
 
   renderExplore(city);
-  initMap(city);
-}
 
+  // ✅ FIX: пускаме карта САМО ако съществува в DOM
+  if (document.getElementById("leaflet-map") && typeof L !== "undefined") {
+    initMap(city);
+  }
+}
 /* ─────────────────────────────
    EXPLORE
 ────────────────────────────── */
