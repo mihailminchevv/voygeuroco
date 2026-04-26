@@ -49,8 +49,12 @@ nav {
 }
 
 .nav-brand {
-  display: flex; align-items: center; gap: 10px;
-  text-decoration: none; cursor: pointer;
+  color: var(--white);
+  font-family: var(--serif);
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .nav-brand-icon {
