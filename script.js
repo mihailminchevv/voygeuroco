@@ -181,3 +181,107 @@ document.addEventListener("DOMContentLoaded", () => {
     initCity("berlin");
   }
 });
+/* ── PLAN ── */
+let planDays = 2;
+let planDiff = 'moderate';
+let planInterests = new Set();
+
+function updateDays(val) {
+  planDays = parseInt(val);
+  const pct = ((val - 1) / 6 * 100).toFixed(1);
+  const slider = document.getElementById('days-slider');
+  slider.style.setProperty('--pct', pct + '%');
+  document.getElementById('days-display').textContent = val == 1 ? '1 day' : val + ' days';
+  document.querySelectorAll('.days-tick').forEach((t, i) => t.classList.toggle('active', i + 1 == val));
+}
+
+function setDays(val) {
+  document.getElementById('days-slider').value = val;
+  updateDays(val);
+}
+
+function setDiff(d) {
+  planDiff = d;
+  ['relaxed', 'moderate', 'intensive'].forEach(opt => {
+    document.getElementById('diff-' + opt).classList.toggle('selected', opt === d);
+  });
+}
+
+function toggleInterest(key) {
+  const el = document.getElementById('int-' + key);
+  if (planInterests.has(key)) {
+    planInterests.delete(key);
+    el.classList.remove('selected');
+  } else {
+    planInterests.add(key);
+    el.classList.add('selected');
+  }
+}
+
+function showError(msg) {
+  const el = document.getElementById('plan-error');
+  if (!el) return;
+  el.textContent = msg;
+  el.classList.add('visible');
+}
+
+function hideError() {
+  const el = document.getElementById('plan-error');
+  if (!el) return;
+  el.classList.remove('visible');
+}
+
+async function generatePlan() {
+  hideError();
+
+  if (!planInterests.size) {
+    showError("Please select at least one interest.");
+    return;
+  }
+
+  // Показваме loading
+  const loading = document.getElementById('plan-loading');
+  const result  = document.getElementById('plan-result');
+  const btn     = document.getElementById('plan-btn');
+  if (loading) loading.classList.add('visible');
+  if (result)  result.classList.remove('visible');
+  if (btn)     btn.disabled = true;
+
+  // Строим промпта
+  const interests = [...planInterests].join(', ');
+  const prompt = `You are a travel guide for Berlin, Germany.
+Create a detailed ${planDays}-day itinerary for a tourist with these interests: ${interests}.
+Trip pace: ${planDiff} (relaxed = 2-3 places/day, moderate = 4-5 places/day, intensive = 6+ places/day).
+Format the response with clear Day 1, Day 2 headings and bullet points for each place.
+Include the place name, a short description, and why it matches the tourist's interests.
+Write in English.`;
+
+  try {
+    const response = await fetch('https://zuirhbackend.onrender.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt })
+    });
+
+    const data = await response.json();
+
+    if (data.error) {
+      showError("AI error: " + data.error);
+      return;
+    }
+
+    // Показваме резултата
+    document.getElementById('plan-result-meta').textContent =
+      `${planDays} ${planDays === 1 ? 'day' : 'days'} · ${planDiff} pace · ${[...planInterests].join(', ')}`;
+    document.getElementById('plan-results').innerHTML =
+      data.result.replace(/\n/g, '<br>');
+    if (result) result.classList.add('visible');
+
+  } catch (err) {
+    showError("Could not connect to the server. Please try again.");
+    console.error(err);
+  } finally {
+    if (loading) loading.classList.remove('visible');
+    if (btn)     btn.disabled = false;
+  }
+}
