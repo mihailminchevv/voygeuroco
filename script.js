@@ -285,14 +285,21 @@ Write in English.`;
     if (btn)     btn.disabled = false;
   }
 }
-
+// Blog page
 function navigate(page) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-
+function navigate(page) {
+  const pages = document.querySelectorAll('.page');
   const target = document.getElementById('page-' + page);
-  if (target) target.classList.add('active');
 
-  if (page === 'blog') {
-    loadBlog(); // ← ВАЖНО
+  if (!target) {
+    console.warn("Page not found:", page);
+    return;
+  }
+
+  pages.forEach(p => p.classList.remove('active'));
+  target.classList.add('active');
+
+  if (page === 'blog' && typeof loadBlog === 'function') {
+    loadBlog();
   }
 }
