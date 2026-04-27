@@ -285,3 +285,14 @@ Write in English.`;
     if (btn)     btn.disabled = false;
   }
 }
+
+function navigate(page) {
+  document.querySelectorAll('.page').forEach(p => {
+    p.classList.remove('active');
+  });
+
+  const target = document.getElementById('page-' + page);
+  if (target) {
+    target.classList.add('active');
+  }
+}
