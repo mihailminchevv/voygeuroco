@@ -401,12 +401,14 @@ function toggleInterest(key) {
 ────────────────────────────── */
 
 document.addEventListener("DOMContentLoaded", () => {
-  initCity(currentCity);
+  if (typeof cities !== "undefined") {
+    initCity("berlin");
+    initCity("paris");
+  }
+});
 });
 
-// Blog page
 function navigate(page) {
-  const pages = document.querySelectorAll('.page');
   const target = document.getElementById('page-' + page);
 
   if (!target) {
@@ -414,13 +416,11 @@ function navigate(page) {
     return;
   }
 
-  pages.forEach(p => p.classList.remove('active'));
   target.classList.add('active');
+   if (page === 'blog' && typeof loadBlog === 'function') 
+   { loadBlog(); }
 
   if (page === 'blog' && typeof loadBlog === 'function') {
     loadBlog();
   }
 }
-document.addEventListener("DOMContentLoaded", () => {
-  navigate('home');
-});
