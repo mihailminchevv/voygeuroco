@@ -201,7 +201,7 @@ function buildPrompt(city) {
   const interests = [...planInterests].join(', ');
 
   return `
-You are an AI itinerary engine.
+You are a professional travel itinerary engine.
 
 CITY: ${city}
 DAYS: ${planDays}
@@ -210,24 +210,38 @@ INTERESTS: ${interests}
 
 OUTPUT RULES:
 - Output ONLY itinerary
-- No storytelling
-- No explanations
-- No extra text
+- Strictly structured by days
+- No intro, no conclusion
+- No storytelling style
+
+DAILY STRUCTURE:
+Depending on pace:
+- relaxed: 2–3 places per day
+- moderate: 4–5 places per day
+- intensive: 6–7 places per day
 
 FORMAT:
 
 Day 1:
-- Place — 1 short factual reason
+1. Place Name — 2 sentence description + relevance
+2. Place Name — 2 sentence description + relevance
+3. Place Name — 2 sentence description + relevance
 
 Day 2:
-- Place — 1 short factual reason
+1. Place Name — 2 sentence description + relevance
+2. Place Name — 2 sentence description + relevance
 
 STYLE:
-- Neutral tone
-- Max 1 sentence per place
+- Informative travel guide tone
+- Each place MUST have:
+  - what it is
+  - why it's interesting
+- No repetition of places across days
+- No filler text
 
 IMPORTANT:
-Generate EXACTLY ${planDays} days. No more, no less.
+Generate EXACTLY ${planDays} days.
+Each day MUST contain multiple places based on pace.
 `;
 }
 
