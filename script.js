@@ -406,7 +406,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initCity("paris");
   }
 });
-});
+
 
 function navigate(page) {
   const target = document.getElementById('page-' + page);
