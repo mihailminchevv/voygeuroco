@@ -201,18 +201,42 @@ function buildPrompt(city) {
   const interests = [...planInterests].join(', ');
 
   return `
-You are a travel guide for ${city}.
+function buildPrompt(city) {
+  const interests = [...planInterests].join(', ');
 
-Create a ${planDays}-day itinerary.
+  return `
+You are an AI itinerary engine.
 
-Interests: ${interests}
-Pace: ${planDiff}
+CITY: ${city}
+DAYS: ${planDays}
+PACE: ${planDiff}
+INTERESTS: ${interests}
 
-Rules:
-- Day structure (Day 1, Day 2...)
-- Only real places in ${city}
-- No markdown formatting
-- Include explanation for each place
+OUTPUT RULES (VERY STRICT):
+
+- Output ONLY itinerary
+- No storytelling
+- No sentences like "we will go", "we will visit"
+- No explanations
+- No extra text before or after
+- No hidden gems section unless explicitly in attractions list
+- No nightlife suggestions unless "nightlife" is in interests
+
+FORMAT:
+
+Day 1:
+- Place — 1 short factual reason
+
+Day 2:
+- Place — 1 short factual reason
+
+STYLE:
+- Neutral tone
+- Encyclopedia style (not blog)
+- Max 1 sentence per place
+- No adjectives like "beautiful", "vibrant", "amazing"
+- IMPORTANT:
+Generate EXACTLY ${planDays} days. No more, no less.
 `;
 }
 
