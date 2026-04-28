@@ -1,12 +1,19 @@
 /* ─────────────────────────────
-   MAP STATE
+   GLOBAL STATE (MULTI-CITY ENGINE)
 ────────────────────────────── */
 
 let leafletMap = null;
 let mapMarkers = [];
+let currentCity = 'berlin';
+
+let planDays = 2;
+let planDiff = 'moderate';
+let planInterests = new Set();
+
+const planCache = new Map();
 
 /* ─────────────────────────────
-   CITY DATA 
+   CITIES DATA (MULTI-CITY READY)
 ────────────────────────────── */
 
 const cities = {
@@ -14,7 +21,7 @@ const cities = {
     center: [52.5200, 13.4050],
     zoom: 13,
     attractions: [
-// PRUSSIAN & IMPERIAL LANDMARKS
+       // PRUSSIAN & IMPERIAL LANDMARKS
   { id: 1,  name: "Brandenburg Gate",                      category: "Prussian Landmarks",  description: "The definitive symbol of Berlin and Prussian neoclassical architecture.",                          city: "Berlin", lat: 52.5163, lng: 13.3777, image: "https://wikimedia.org" },
   { id: 2,  name: "Reichstag (The Dome)",                  category: "Prussian Landmarks",  description: "The seat of the German Parliament with Foster's iconic glass dome.",                               city: "Berlin", lat: 52.5186, lng: 13.3761, image: "https://wikimedia.org" },
   { id: 3,  name: "Charlottenburg Palace",                 category: "Prussian Landmarks",  description: "The largest royal palace in Berlin, built by the Hohenzollern dynasty.",                          city: "Berlin", lat: 52.5211, lng: 13.2958, image: "https://wikimedia.org" },
@@ -65,7 +72,6 @@ const cities = {
   { id: 40, name: "German Museum",                         category: "Tech & Arts Museums", description: "Deutsches Museum Berlin, focused on modern technical culture.",                                 city: "Berlin", lat: 52.5212, lng: 13.4110, image: "https://wikimedia.org" },
   { id: 41, name: "German Museum of Technology (Aviation)",category: "Tech & Arts Museums", description: "The aerospace wing of the technology museum.",                                                  city: "Berlin", lat: 52.4988, lng: 13.3780, image: "https://wikimedia.org" },
   { id: 42, name: "Museum Island (Pergamon)",              category: "Tech & Arts Museums", description: "Home to the Pergamon Altar and the Ishtar Gate.",                                               city: "Berlin", lat: 52.5210, lng: 13.3965, image: "https://wikimedia.org" }
-
 ]
   },
 
@@ -75,7 +81,10 @@ const cities = {
   barcelona: generateCity("Barcelona", 41.3851, 2.1734)
 };
 
-/* helper (НЕ ПИПАМ) */
+/* ─────────────────────────────
+   CITY GENERATOR
+────────────────────────────── */
+
 function generateCity(name, lat, lng) {
   return {
     center: [lat, lng],
@@ -90,6 +99,20 @@ function generateCity(name, lat, lng) {
   };
 }
 
+/* ─────────────────────────────
+   CITY SWITCH
+────────────────────────────── */
+
+function setCity(cityKey) {
+  if (!cities[cityKey]) return;
+  currentCity = cityKey;
+  initCity(cityKey);
+}
+
+/* ─────────────────────────────
+   INIT CITY
+────────────────────────────── */
+
 function initCity(cityKey) {
   const city = cities[cityKey];
   if (!city) return;
@@ -100,8 +123,9 @@ function initCity(cityKey) {
     initMap(city);
   }
 }
+
 /* ─────────────────────────────
-   EXPLORE
+   EXPLORE GRID
 ────────────────────────────── */
 
 function renderExplore(city) {
@@ -117,12 +141,10 @@ function renderExplore(city) {
 }
 
 /* ─────────────────────────────
-   MAP INIT (FIXED)
+   MAP INIT
 ────────────────────────────── */
 
 function initMap(city) {
-
-  // FIX: ако вече има карта → унищожи я
   if (leafletMap) {
     leafletMap.remove();
     leafletMap = null;
@@ -171,22 +193,104 @@ function goToPlace(lat, lng) {
   leafletMap.setView([lat, lng], 16);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+/* ─────────────────────────────
+   PLAN ENGINE (MULTI-CITY AI)
+────────────────────────────── */
 
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+function buildPrompt(city) {
+  const interests = [...planInterests].join(', ');
 
- 
-  document.getElementById('page-blog')?.classList.add('active');
+  return `
+You are a travel guide for ${city}.
 
+Create a ${planDays}-day itinerary.
 
-  if (typeof cities !== "undefined") {
-    initCity("berlin");
+Interests: ${interests}
+Pace: ${planDiff}
+
+Rules:
+- Day structure (Day 1, Day 2...)
+- Only real places in ${city}
+- No markdown formatting
+- Include explanation for each place
+`;
+}
+
+function getCacheKey() {
+  return `${currentCity}-${planDays}-${planDiff}-${[...planInterests].sort().join(',')}`;
+}
+
+async function generatePlan() {
+  hideError();
+
+  if (!planInterests.size) {
+    showError("Please select at least one interest.");
+    return;
   }
-});
-/* ── PLAN ── */
-let planDays = 2;
-let planDiff = 'moderate';
-let planInterests = new Set();
+
+  const loading = document.getElementById('plan-loading');
+  const result  = document.getElementById('plan-result');
+  const btn     = document.getElementById('plan-btn');
+
+  if (loading) loading.classList.add('visible');
+  if (result) result.classList.remove('visible');
+  if (btn) btn.disabled = true;
+
+  const key = getCacheKey();
+
+  if (planCache.has(key)) {
+    document.getElementById('plan-results').innerHTML = planCache.get(key);
+    if (result) result.classList.add('visible');
+
+    if (loading) loading.classList.remove('visible');
+    if (btn) btn.disabled = false;
+    return;
+  }
+
+  const prompt = buildPrompt(currentCity);
+
+  try {
+    const response = await fetch('https://zuirhbackend.onrender.com/api/ai', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt })
+    });
+
+    const text = await response.text();
+
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      showError("Server returned invalid response");
+      return;
+    }
+
+    if (!response.ok || data.error) {
+      showError(data.error || "AI error");
+      return;
+    }
+
+    const output = document.getElementById('plan-results');
+
+    if (output) {
+      output.innerHTML = (data.result || '').replace(/\n/g, '<br>');
+      planCache.set(key, output.innerHTML);
+    }
+
+    if (result) result.classList.add('visible');
+
+  } catch (err) {
+    showError("Could not connect to server.");
+  } finally {
+    if (loading) loading.classList.remove('visible');
+    if (btn) btn.disabled = false;
+  }
+}
+
+/* ─────────────────────────────
+   PLAN UI HELPERS
+────────────────────────────── */
 
 function updateDays(val) {
   const slider = document.getElementById('days-slider');
@@ -209,14 +313,12 @@ function updateDays(val) {
 function setDays(val) {
   const slider = document.getElementById('days-slider');
   if (!slider) return;
-
   slider.value = val;
   updateDays(val);
 }
 
 function setDiff(d) {
   planDiff = d;
-
   ['relaxed', 'moderate', 'intensive'].forEach(opt => {
     const el = document.getElementById('diff-' + opt);
     if (el) el.classList.toggle('selected', opt === d);
@@ -236,99 +338,13 @@ function toggleInterest(key) {
   }
 }
 
-function showError(msg) {
-  const el = document.getElementById('plan-error');
-  if (!el) return;
+/* ─────────────────────────────
+   INIT DEFAULT
+────────────────────────────── */
 
-  el.textContent = msg;
-  el.classList.add('visible');
-}
-
-function hideError() {
-  const el = document.getElementById('plan-error');
-  if (!el) return;
-
-  el.classList.remove('visible');
-}
-
-async function generatePlan() {
-  hideError();
-
-  if (!planInterests.size) {
-    showError("Please select at least one interest.");
-    return;
-  }
-
-  const loading = document.getElementById('plan-loading');
-  const result  = document.getElementById('plan-result');
-  const btn     = document.getElementById('plan-btn');
-
-  if (loading) loading.classList.add('visible');
-  if (result) result.classList.remove('visible');
-  if (btn) btn.disabled = true;
-
-  const interests = [...planInterests].join(', ');
-
-  const prompt = `
-You are a travel guide for Berlin, Germany.
-Create a detailed ${planDays}-day itinerary.
-
-Interests: ${interests}
-Pace: ${planDiff}
-
-Rules:
-- Day 1, Day 2 structure
-- Bullet points per place
-- Include name + short explanation
-- No markdown symbols
-`;
-
-  try {
-    const response = await fetch('https://zuirhbackend.onrender.com/api/ai', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt })
-    });
-     const text = await response.text(); // <- важно
-
-let data;
-try {
-  data = JSON.parse(text);
-} catch (e) {
-  console.error("NOT JSON RESPONSE:", text);
-  showError("Server returned invalid response");
-  return;
-}
-
-    const data = await response.json();
-
-    if (!response.ok || data.error) {
-      showError(data.error || "AI error");
-      return;
-    }
-
-    const meta = document.getElementById('plan-result-meta');
-    const output = document.getElementById('plan-results');
-
-    if (meta) {
-      meta.textContent =
-        `${planDays} ${planDays === 1 ? 'day' : 'days'} · ${planDiff} pace · ${interests}`;
-    }
-
-    if (output) {
-      output.innerHTML = (data.result || '').replace(/\n/g, '<br>');
-    }
-
-    if (result) result.classList.add('visible');
-
-  } catch (err) {
-    console.error(err);
-    showError("Could not connect to the server.");
-  } finally {
-    if (loading) loading.classList.remove('visible');
-    if (btn) btn.disabled = false;
-  }
-}
+document.addEventListener("DOMContentLoaded", () => {
+  initCity(currentCity);
+});
 
 // Blog page
 function navigate(page) {
