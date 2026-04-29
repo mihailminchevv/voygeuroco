@@ -7,38 +7,22 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 
-<link rel="preconnect" href="https://googleapis.com">
-<link href="https://googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="https://cloudflare.com">
-<script src="https://cloudflare.com"></script>
-
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
 <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
 <body data-city="paris">
-<div id="leaflet-map" style="height:500px;"></div>
-
-
-<script src="script.js"></script>
-</body>
+<!-- ── NAV ── -->
 <!-- ── NAV ── -->
 <nav id="main-nav">
   <div class="nav-brand" onclick="window.location.href='index.html'">
-    <div class="nav-brand-icon">
-      <svg viewBox="0 0 24 24">
-        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-      </svg>
-    </div>
     <span class="nav-brand-text">Voyageur<span>Co</span></span>
   </div>
 
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="map.html">Map</a></li>
-     <li><a href="blog.html">Blog</a></li>
-    <li>
+    <li><a href="blog.html">Blog</a></li>
       <a href="create.html"
          style="color: var(--gold); border: 1px solid rgba(201,168,76,0.35); padding: 5px 14px; border-radius: 100px;">
         Create my trip
@@ -46,7 +30,10 @@
     </li>
   </ul>
 </nav>
-
+  
+<!-- ── MAP ── -->
+<div id="leaflet-map" style="height:500px;"></div>
+  
 <!-- ── HERO ── -->
 <div id="page-home" class="page active">
   <section class="hero">
@@ -160,26 +147,26 @@
 <!-- ── FOOTER ── -->
 <footer id="site-footer">
   <div class="footer-bottom">
-      <div class="footer-brand-name">Voyageur<span>&amp;Co</span></div>
-      <p class="footer-brand-desc">
-        A curated digital guide to Europe.
-      </p>
-    </div>
-    <div>
-      <div class="footer-col-title">About</div>
-      <ul class="footer-links">
-        <li><a href="index.html">Home</a></li>
-         <li><a href="berlin.html">Berlin</a></li>
-         <li><a href="paris.html">Paris</a></li>
-      </ul>
-    </div>
+    <div class="footer-brand-name">Voyageur<span>&amp;Co</span></div>
+    <p class="footer-brand-desc">A curated digital guide to Europe.</p>
+  </div>
+
   <div class="footer-bottom">
     <span class="footer-copy">&copy; 2026 Voyageur &amp; Co</span>
   </div>
 </footer>
-  
-  <script>
-    
+
+<!-- ── SCRIPTS (IMPORTANT ORDER) ── -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="script.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  if (typeof setCity === "function") {
+    setCity("paris");
+  }
+});
 </script>
+
 </body>
 </html>
