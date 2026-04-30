@@ -12,7 +12,8 @@
 </head>
 
 <body>
-  
+  <script src="script.js" defer></script>
+  <div id="leaflet-map" data-city="paris"></div>
 <!-- ── NAV ── -->
 <nav id="main-nav">
   <div class="nav-brand" onclick="window.location.href='index.html'">
@@ -154,9 +155,6 @@
 </footer>
 
 <!-- ── SCRIPTS (IMPORTANT ORDER) ── -->
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="script.js"></script>
-
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   if (typeof setCity === "function") {
