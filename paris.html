@@ -12,8 +12,6 @@
 </head>
 
 <body>
-  <script src="script.js" defer></script>
-  <div id="leaflet-map" data-city="paris"></div>
 <!-- ── NAV ── -->
 <nav id="main-nav">
   <div class="nav-brand" onclick="window.location.href='index.html'">
@@ -155,6 +153,8 @@
 </footer>
 
 <!-- ── SCRIPTS (IMPORTANT ORDER) ── -->
+  <div id="leaflet-map" data-city="berlin"></div>
+<script src="script.js" defer></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   if (typeof setCity === "function") {
@@ -162,6 +162,5 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 </script>
-
 </body>
 </html>
