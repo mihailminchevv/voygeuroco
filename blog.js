@@ -1,4 +1,7 @@
-const Berlin_Posts = [
+const CITY_BLOGS = {
+   berlin: {
+    name: "Berlin",
+    posts: [
   {
     id: 1,
     title: "Hidden Berlin: A Complete Guide to Secret Places in Berlin",
@@ -95,6 +98,7 @@ const Berlin_Posts = [
 <p>Berlin does not impose structure—it gives you freedom.</p>
 
 <p>This is what makes Berlin nightlife truly unforgettable.</p>`
+ ]
   },
   {
     id: 5,
@@ -122,7 +126,9 @@ const Berlin_Posts = [
   },
 ];
 
-const Paris_Posts = [
+ paris: {
+    name: "Paris",
+    posts: [
   {
     id: 1,
     title: "Hidden Paris: Secret Places Beyond the Tourist Map",
