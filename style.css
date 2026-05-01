@@ -1070,12 +1070,6 @@ body, html {
   margin-top: 2px;
 }
 
-.map-info-bar {
-  background: var(--navy-mid);
-  border-top: 1px solid rgba(201,168,76,0.1);
-  padding: 1rem 1.4rem;
-}
-
 .map-info-name {
   font-family: var(--serif);
   font-size: 0.95rem;
