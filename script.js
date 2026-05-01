@@ -12,6 +12,22 @@ let planInterests = new Set();
 const planCache = new Map();
 
 /* ─────────────────────────────
+   CITY INIT
+────────────────────────────── */
+
+function getCityKey() {
+  const params = new URLSearchParams(window.location.search);
+  const fromUrl = params.get("city");
+
+  if (fromUrl && cities[fromUrl]) return fromUrl;
+
+  const fromBody = document.body.dataset.city;
+  if (fromBody && cities[fromBody]) return fromBody;
+
+  return null;
+}
+
+/* ─────────────────────────────
    CITIES DATA (MULTI-CITY READY)
 ────────────────────────────── */
 
@@ -151,22 +167,6 @@ function generateCity(name, lat, lng) {
 }
 
 /* ─────────────────────────────
-   CITY INIT
-────────────────────────────── */
-
-function getCityKey() {
-  const params = new URLSearchParams(window.location.search);
-  const fromUrl = params.get("city");
-
-  if (fromUrl && cities[fromUrl]) return fromUrl;
-
-  const fromBody = document.body.dataset.city;
-  if (fromBody && cities[fromBody]) return fromBody;
-
-  return null;
-}
-
-/* ─────────────────────────────
    EXPLORE GRID
 ────────────────────────────── */
 
@@ -294,19 +294,13 @@ Return structured itinerary with multiple places per day.
 ────────────────────────────── */
 
 document.addEventListener("DOMContentLoaded", () => {
-  const cityKey = getCityKey();
+  const params = new URLSearchParams(window.location.search);
+  const cityKey = params.get("city");
 
-  if (!cityKey) {
-    console.warn("No valid city found");
+  if (!cityKey || !cities[cityKey]) {
+    console.error("No valid city found in URL");
     return;
   }
 
-  // винаги сетваме city → за AI, UI, всичко
   setCity(cityKey);
-
-  // map само ако има контейнер
-  const mapContainer = document.getElementById("leaflet-map");
-  if (!mapContainer) return;
-
-  initMap(cities[cityKey]);
 });
