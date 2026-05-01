@@ -98,7 +98,7 @@ const CITY_BLOGS = {
 <p>Berlin does not impose structure—it gives you freedom.</p>
 
 <p>This is what makes Berlin nightlife truly unforgettable.</p>`
- ]
+ ];
   },
   {
     id: 5,
