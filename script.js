@@ -34,6 +34,30 @@ function getCityKey() {
   return null;
 }
 
+function getCityFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("city") || "berlin";
+}
+
+function formatCityName(city) {
+  return city.charAt(0).toUpperCase() + city.slice(1);
+}
+
+function setCityTitle() {
+  const city = getCityFromURL();
+  const title = document.getElementById("city-title");
+
+  if (title) {
+    title.textContent = formatCityName(city) + " Locations";
+  }
+
+  const sub = document.getElementById("map-count");
+  if (sub) {
+    sub.textContent = `Discover places in ${formatCityName(city)}`;
+  }
+}
+
+setCityTitle();
 /* ─────────────────────────────
    CITIES DATA (UNCHANGED)
 ────────────────────────────── */
