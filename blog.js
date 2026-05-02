@@ -124,7 +124,7 @@ const CITY_BLOGS = {
 <p>It is not a city you simply visit. It is a city you experience.</p>`
   },
 ],
-};
+      
  paris: {
     name: "Paris",
     posts: [
@@ -242,12 +242,21 @@ const CITY_BLOGS = {
 <p>Ultimately, the real Paris is not a checklist of attractions. It is a collection of moments, atmospheres, and experiences that come together naturally.</p>
 
 <p>To explore Paris like a local is to let go of structure and follow the city itself.</p>`
+     ]
   }
-    };
+};
 /* ── BLOG ── */
 function loadBlog() {
   const grid = document.getElementById('blog-grid');
   if (!grid) return;
+
+  const params = new URLSearchParams(window.location.search);
+  const cityKey = params.get("city") || "berlin";
+
+  const cityBlog = CITY_BLOGS[cityKey];
+  if (!cityBlog) return;
+
+  const blogPosts = cityBlog.posts;
 
   grid.innerHTML = blogPosts.map(p => `
     <article class="blog-card" onclick="openBlogPost(${p.id})">
@@ -258,26 +267,27 @@ function loadBlog() {
         <div class="blog-meta"><span class="blog-date">${p.date}</span></div>
         <h2 class="blog-title">${p.title}</h2>
         <p class="blog-excerpt">${p.excerpt}</p>
-        <span class="blog-read-more">Read Article <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <span class="blog-read-more">Read Article</span>
       </div>
     </article>
   `).join('');
 }
-
 function openBlogPost(id) {
+  const params = new URLSearchParams(window.location.search);
+  const cityKey = params.get("city") || "berlin";
+
+  const blogPosts = CITY_BLOGS[cityKey].posts;
   const p = blogPosts.find(x => x.id === id);
   if (!p) return;
 
   document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active'));
-  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-
-  const blogNavLink = document.querySelector('[data-page="blog"]');
-  if (blogNavLink) blogNavLink.classList.add('active');
 
   document.getElementById('page-blog').classList.remove('active');
   document.getElementById('page-blog-post').classList.add('active');
 
-  document.getElementById('post-hero-img').style.backgroundImage = `url('${p.image}'), linear-gradient(135deg, #1a2f45 0%, #0d1b2a 100%)`;
+  document.getElementById('post-hero-img').style.backgroundImage =
+    `url('${p.image}'), linear-gradient(135deg, #1a2f45 0%, #0d1b2a 100%)`;
+
   document.getElementById('post-tag').textContent = p.tag;
   document.getElementById('post-date').textContent = p.date;
   document.getElementById('post-title').textContent = p.title;
