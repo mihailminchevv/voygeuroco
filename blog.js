@@ -300,3 +300,9 @@ function openBlogPost(id) {
   window.scrollTo(0, 0);
 }
 document.addEventListener("DOMContentLoaded", loadBlog);
+
+function goBackToBlog() {
+  document.getElementById('page-blog-post').classList.remove('active');
+  document.getElementById('page-blog').classList.add('active');
+  window.scrollTo(0, 0);
+}
